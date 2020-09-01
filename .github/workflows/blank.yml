@@ -29,3 +29,11 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run directory list
         run: ls -al
+
+      # Upload static html/css/js artifacts
+      - uses: actions/upload-artifact@v2
+        with:
+          name: static-resources
+          path: |
+            .
+            !.*
