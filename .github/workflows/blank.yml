@@ -31,9 +31,19 @@ jobs:
         run: ls -al
 
       # Upload static html/css/js artifacts
-      - uses: actions/upload-artifact@v2
+      - name: Website Deployment Artifact
+        uses: actions/upload-artifact@v2
         with:
           name: static-resources
           path: |
             .
             !.*
+
+      - name: repo-sync to seburan.github.io
+        uses: wei/git-sync@v2
+        with:
+          source_repo: "Seburan/resume.git"
+          source_branch: "master"
+          destination_repo: "Seburan/seburan.github.io.git"
+          destination_branch: "master"
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
