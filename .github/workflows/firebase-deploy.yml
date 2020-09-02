@@ -21,7 +21,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repository
-      - uses: actions/checkout@master
+        uses: actions/checkout@master
 
       # Upload static html/css/js artifacts (exclude hidden files like .git etc...)
       - name: Upload website deployment artifacts
