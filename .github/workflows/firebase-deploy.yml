@@ -20,11 +20,21 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+      - uses: actions/checkout@master
+
+      # Upload static html/css/js artifacts (exclude hidden files like .git etc...)
+      - name: Upload website deployment artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: static-resources
+          path: |
+            .
+            !.*
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Nothing to build for firebase hosting!
+        run: echo Build Complete !
         
   deploy:
     # let's deploy resources for firebase hosting
@@ -41,7 +51,18 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repo
         uses: actions/checkout@v2
-      
+
+      # Download website deployment artifacts into public folder for firebase deploy
+      - name: Download website deployment artifacts
+        uses: actions/download-artifact@master
+        with:
+          name: static-resources
+          path: public
+
+      # Runs a set of commands using the runners shell
+      - name: Run directory list
+        run: ls -al public
+
       # Use firebase-action to deploy
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
