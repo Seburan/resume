@@ -30,7 +30,11 @@ jobs:
           name: static-resources
           path: |
             .
-            !.*
+            !firebase.json
+            !**/.*"
+            !**/node_modules/**
+            !CNAME
+            !README.md
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
