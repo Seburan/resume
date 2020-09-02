@@ -1,0 +1,73 @@
+# This workflow deploys Git Master Branch to Firebase Hosting using Firebase CLI
+name: Firebase Hosting Deployment
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains 2 jobs : build and deploy
+  build:
+    # there is nothing to build to firebase hosting but let's keep it as a template
+    name: Build
+    
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@master
+
+      # Upload static html/css/js artifacts (exclude hidden files like .git etc...)
+      - name: Upload website deployment artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: static-resources
+          path: |
+            .
+            !.*
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Build Complete !
+        
+  deploy:
+    # let's deploy resources for firebase hosting
+    name: Deploy
+    
+    # Execute after build
+    needs: build
+    
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      # Download website deployment artifacts into public folder for firebase deploy
+      - name: Download website deployment artifacts
+        uses: actions/download-artifact@master
+        with:
+          name: static-resources
+          path: public
+
+      # Runs a set of commands using the runners shell
+      - name: Run directory list
+        run: ls -al public
+
+      # Use firebase-action to deploy
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+  
