@@ -14,5 +14,4 @@ This template is based on the following technologies & libraries :
 ## Live Version
 
 * https://resume.severin.jp
-* http://aws.severin.jp
 * https://github.severin.jp
