@@ -11,7 +11,9 @@ This template is based on the following technologies & libraries :
 - [FontAwesome](http://fortawesome.github.io/Font-Awesome/)
 - [jQuery](http://jquery.com/)
 
-## Live Version
+## CI/CD
+https://firebase.google.com/docs/hosting/github-integration
 
-* https://resume.severin.jp
-* https://github.severin.jp
+## Live Version
+* https://resume.severin.jp (Google Cloud Firebase Hosting)
+* https://github.severin.jp (Github Hosting)
