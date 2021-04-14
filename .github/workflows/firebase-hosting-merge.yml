@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # Add any build steps here. For example:
-      # - run: npm ci && npm run build
+      - name: build step copy files to public folder
+        run: rsync -rv . public/
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
